@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+* {
+  box-sizing: border-box;
+  color: #333;
+  font-family: "DM Sans", serif;
+}
+h1#logo {
+  font-weight: 900;
+  font-size: 52px;
+  margin-bottom: 0;
+}
+h2#logo {
+  font-weight: 900;
+  font-size: 22px;
+  margin-top: -32px;
+  margin-bottom: 24px;
+}
+h2#logo strong {
+  font-weight: 200;
+}
+#sublogo {
+  position: relative;
+  font-weight: 300;
+  font-size: 18px;
+  top: -4px;
+}
+#footer {
+  position: relative;
+  font-weight: 300;
+  font-size: 14px;
+  top: 14px;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+#app {
+  background-color: #fff;
+  width: 460px;
+  height: 730px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  padding: 60px;
+  box-shadow: #e1e1e1 0 4px 18px 6px;
+}
+#first {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: -webkit-fill-available;
+  opacity: 1;
+  transition: .5s;
+}
+#second {
+  flex-direction: column;
+  justify-content: space-between;
+  height: -webkit-fill-available;
+  opacity: 0;
+  display: none;
+  transition: .5s;
+}
+input {
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 12px;
+  border: 1px solid #f1f1f1;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  cursor: pointer;
+}
+input:focus {
+  outline: 1px solid #333;
+}
+#button {
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  border: 1px solid #333;
+  background-color: #333;
+  border-radius: 4px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 13px;
+  transition: .2s;
+}
+#button:hover {
+  background-color: #555;
+}
+#map {
+  border: 1px solid #e1e1e1;
+  height: -webkit-fill-available;
+  width: 118%;
+  margin-left: -9%;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+}
+#second #footer {
+  margin-top: 2px;
+  margin-bottom: -26px
+}
+#second #header {
+  margin-left: -260px;
+}
+#second #header span {
+  position: absolute;
+  right: 34px;
+  top: 24px;
+  background-color: #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 2px solid #fff;
+  outline: 2px solid #333;
+  font-weight: 900;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .2s;
+}
+#second #header span:hover {
+  background-color: #555;
+}
+#map div {
+  position: relative;
+}
