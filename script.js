@@ -3,7 +3,7 @@
 document.ontouchmove = function(event){
     event.preventDefault();
 }
-module.exports = function(el) {
+export default function(el) {
   el.addEventListener('touchstart', function() {
     var top = el.scrollTop
       , totalScroll = el.scrollHeight
