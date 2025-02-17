@@ -108,8 +108,8 @@ body {
   background: transparent;
 }
 .position.back {
-  transform: rotateX(75deg) rotatez(15deg) skew(-10deg, 0deg) rotate(180deg); 
-  top: 0px; left: 8px;  
+  transform: rotateX(75deg) rotatez(15deg) skew(-10deg, 0deg) rotate(180deg);
+  top: 0px; left: 8px;
   background: transparent;
   border-color: transparent;
 }
@@ -118,8 +118,8 @@ body {
   background: #33333320;
   border-color: #33333390;
 }
-.position.back.active { 
-  top: 0px; margin-left: 8px; 
+.position.back.active {
+  top: 0px; margin-left: 8px;
   background: transparent;
   border-color: transparent;
 }
