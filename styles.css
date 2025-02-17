@@ -136,7 +136,7 @@ input:focus {
 #map div {
   position: relative;
 }
-@media(max-width:460px) {
+@media(max-width:560px) {
   body {
     width: 460px;
     height: 800px;
