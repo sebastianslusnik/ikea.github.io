@@ -1,0 +1,244 @@
+body {
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+
+/* LOCATIONS */
+
+.location {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -110%);
+  width: 950px;
+  height: 300px;
+  filter: sepia(1);
+}
+.profil {
+  position: absolute;
+  top: 180px;
+  left: -90px;
+  width: 940px;
+  height: 310px;
+  border: 20px solid black;
+  border-bottom: none;
+  transform: skewY(4deg);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  opacity: .5;
+}
+.profil.back {
+  width: 930px;
+  height: 310px;
+  top: 95px;
+  left: 70px;
+}
+.profil.left {
+  position: absolute;
+  top: 105px !important;
+  left: -85px !important;
+  width: 165px;
+  height: 320px;
+  border: none;
+  border-top: 20px solid black;
+  border-bottom: none;
+  transform: skewY(-28deg);
+}
+.profil.right {
+  position: absolute;
+  top: 175px !important;
+  left: 875px !important;
+  width: 150px;
+  height: 320px;
+  border: none;
+  border-top: 20px solid black;
+  border-bottom: none;
+  transform: skewY(-28deg);
+}
+
+/* POSITIONS */
+
+.position {
+  position: absolute;
+  display: table-cell;
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  background: #33333320;
+  transform: rotateX(75deg) rotatez(15deg) skew(-10deg, 0deg);
+  border: 1px solid #33333390;
+  border-radius: 10px;
+}
+.position:before, .position:after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  transform-origin: 0% 0%;
+  background: inherit;
+  border: 1px solid #333333;
+  border-radius: 5px;
+}
+.position:before {
+  top: 315px; left: 5px;
+  transform: rotateX(-90deg);
+  background-color: transparent;
+  border-color: #333333;
+}
+.position:after {
+  top: 15px; left: 312px;
+  transform: rotateY(90deg);
+}
+.middle {
+  left: 320px !important;
+  top: 22px !important;
+}
+.right {
+  left: 640px !important;
+  top: 44px !important;
+}
+.position.active,
+.position.active:before,
+.position.active:after {
+  border-color: #437043;
+  background: #43704380;
+}
+.position.active:before {
+  border-bottom: none;
+  background: transparent;
+}
+.position.back {
+  transform: rotateX(75deg) rotatez(15deg) skew(-10deg, 0deg) rotate(180deg); 
+  top: 0px; left: 8px;  
+  background: transparent;
+  border-color: transparent;
+}
+.position.back:after {
+  top: -20px; left: 300px;
+  background: #33333320;
+  border-color: #33333390;
+}
+.position.back.active { 
+  top: 0px; margin-left: 8px; 
+  background: transparent;
+  border-color: transparent;
+}
+.position.back.active:after {
+  background: #43704378;
+  border-color: #2a5c2a;
+  border-bottom: 1px solid #2a5c2a;
+}
+.position.right.back {
+  top: -20px; margin-left: 8px;
+}
+
+/* ARTICLES */
+
+
+.article {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 400px;
+  transform-style: preserve-3d;
+  background: #b39983;
+  transform: rotateX(75deg) rotatez(15deg) skew(-10deg, 0deg);
+  border: 2px solid black;
+}
+.article:before, .article:after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 400px;
+  transform-origin: 0% 0%;
+  background: inherit;
+  border: 2px solid black;
+  border-radius: 0px;
+}
+.article:before {
+  top: 404px; left: -2px;
+  height: 20px;
+  width: 120px;
+  transform: rotateX(-90deg);
+}
+.article:after {
+  top: 2px; left: 122px;
+  transform: rotateY(90deg);
+}
+.article.one {
+  bottom: -245px;
+  right: -240px;
+}
+.article.two {
+  bottom: -255px;
+  right: -250px;
+}
+.article.three {
+  bottom: -220px;
+  right: 15px;
+}
+.article.four {
+  bottom: -230px;
+  right: 5px;
+}
+.article.five {
+  bottom: -195px;
+  right: 270px;
+}
+.article.six {
+  bottom: -205px;
+  right: 260px;
+}
+
+/* Z-INDEXING */
+
+.profil {
+  z-index: 99 !important;
+}
+.profil.left {
+  z-index: 98 !important;
+}
+.profil.right {
+  z-index: 98 !important;
+}
+.profil.back {
+  z-index: 0 !important;
+}
+
+.position {
+  z-index: 20 !important;
+}
+.position.back {
+  z-index: 18 !important;
+}
+.position.middle {
+  z-index: 40 !important;
+}
+.position.middle.back {
+  z-index: 38 !important;
+}
+.position.right {
+  z-index: 60 !important;
+}
+.position.right.back {
+  z-index: 58 !important;
+}
+
+.article {
+  z-index: 39 !important;
+}
+
+
+.floor {
+position: absolute;
+    top: 413px;
+    left: -183px;
+    width: 1310px;
+    height: 150px;
+    background-color: #999;
+    transform: skew(-57deg, -3deg) rotate(186deg);
+    border-radius: 200px;
+    opacity: .5;
+    filter: blur(20px);
+    z-index: 0;
+}
