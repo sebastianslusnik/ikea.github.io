@@ -1,4 +1,9 @@
-// Sebastián Slušníkf
+// Sebastián Slušník
+
+document.ontouchmove = function(event){
+    event.preventDefault();
+}
+
 function submit() {
   document.getElementById("first").style.opacity = "0";
   setTimeout(function() {
