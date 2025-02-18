@@ -15,54 +15,71 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
-
-    scanner.addListener('scan', function (content) {
-      document.getElementById("result").innerHTML = content;
-      document.getElementById("preview").style.borderColor = "forestgreen";
-    });
+    async function checkCameraPermissions() {
+      try {
+        await navigator.mediaDevices.getUserMedia({video: true});
+        return true;
+      } catch (err) {
+        console.error('Camera access denied:', err);
+        return false;
+      }
+    }
 
     async function start() {
+      if (!(await checkCameraPermissions())) {
+        alert('Camera permission denied. Please allow camera access in your browser settings.');
+        return;
+      }
+
       try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        console.log('Available devices:', devices);
+
         const videoConstraints = {
           video: {
-            facingMode: { exact: 'environment' } // Attempt to enforce rear camera usage
+            facingMode: { exact: 'environment' }
           }
         };
 
         const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-        // Ensure that the Instascan uses its video control since it's expected by the library
-        scanner.video.setAttribute('src', URL.createObjectURL(stream));
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+        scanner.addListener('scan', function (content) {
+          document.getElementById("result").innerHTML = content;
+          document.getElementById("preview").style.borderColor = "forestgreen";
+        });
+
+        document.getElementById("preview").srcObject = stream;
+        scanner.start(stream);
 
         document.getElementById("starter").style.display = "none";
         document.getElementById("stopper").style.display = "block";
 
-        scanner.start(stream);
       } catch (e) {
-        console.error('Error accessing the camera: ', e);
+        console.error('Error accessing the camera:', e);
         alert('Unable to access the camera. Please check permissions.');
       }
     }
 
     function stop() {
-      scanner.stop().then(() => {
-        console.log('Scanner stopped');
-        document.getElementById("stopper").style.display = "none";
-        document.getElementById("starter").style.display = "block";
+      Instascan.Camera.getCameras().then(cameras => {
+        let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+        scanner.stop().then(() => {
+          console.log('Scanner stopped');
+          document.getElementById("stopper").style.display = "none";
+          document.getElementById("starter").style.display = "block";
 
-        // Stop all video tracks to release the camera
-        let stream = scanner.video.srcObject;
-        let tracks = stream.getTracks();
+          let stream = document.getElementById("preview").srcObject;
+          let tracks = stream.getTracks();
 
-        tracks.forEach(function(track) {
-          track.stop();
+          tracks.forEach(function(track) {
+            track.stop();
+          });
+
+          document.getElementById("preview").srcObject = null;
+        }).catch((e) => {
+          console.error('Error stopping scanner:', e);
         });
-
-        scanner.video.srcObject = null;
-
-      }).catch((e) => {
-        console.error('Error stopping scanner:', e);
       });
     }
   </script>
