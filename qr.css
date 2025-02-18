@@ -60,7 +60,7 @@ button:hover {
     color: #333;
 }
 #my-qr-reader__dashboard_section_csr span:first-of-type {
-    opacity: 0;
+    opacity: 1;
 }
 video {
     width: 100% !important;
