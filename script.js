@@ -68,3 +68,27 @@ function menuBack() {
     document.getElementById("second").style.opacity = "1";
   }, 750);
 }
+function openQR() {
+  document.getElementById("third").style.opacity = "0";
+  setTimeout(function() {
+    document.getElementById("third").style.display = "none";
+  }, 600);
+  setTimeout(function() {
+    document.getElementById("fourth").style.display = "flex";
+  }, 650);
+  setTimeout(function() {
+    document.getElementById("fourth").style.opacity = "1";
+  }, 750);
+}
+function closeQR() {
+  document.getElementById("fourth").style.opacity = "0";
+  setTimeout(function() {
+    document.getElementById("fourth").style.display = "none";
+  }, 600);
+  setTimeout(function() {
+    document.getElementById("third").style.display = "flex";
+  }, 650);
+  setTimeout(function() {
+    document.getElementById("third").style.opacity = "1";
+  }, 750);
+}

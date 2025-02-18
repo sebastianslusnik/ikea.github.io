@@ -46,11 +46,19 @@
         </div>
         <ul id="list">
           <li id="button">Search by location</li>
-          <li id="button">Scan QR code</li>
+          <li id="button" onclick="openQR();">Scan QR code</li>
           <li id="buttonOut" onclick="signout();">SIGNOUT</li>
         </ul>
         <span id="footer">&copy; 2025 Sebastián Slušník | IKEA Bratislava</span>
       </div>
+        <div id="fourth">
+          <div id="header">
+            <h2 id="logo">Rep<strong>Assistant</strong></h2>
+            <span onclick="closeQR();">BACK</span>
+          </div>
+          <iframe src="qr.html"></iframe>
+          <span id="footer">&copy; 2025 Sebastián Slušník | IKEA Bratislava</span>
+        </div>
       <div id="first">
         <div id="header">
           <h1 id="logo">IKEA</h1>

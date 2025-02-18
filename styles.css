@@ -6,7 +6,7 @@
 * {
   box-sizing: border-box;
   color: #333;
-  font-family: "DM Sans", serif;
+  font-family: "DM Sans", serif !important;
 }
 h1#logo {
   font-weight: 900;
@@ -80,16 +80,25 @@ body {
   display: none;
   transition: .5s;
 }
+#fourth {
+  flex-direction: column;
+  justify-content: space-between;
+  height: -webkit-fill-available;
+  opacity: 0;
+  display: none;
+  transition: .5s;
+}
 input {
   display: block;
   width: 100%;
-  height: 50px;
+  padding: 20px 13px;
+  height: 64px;
+  font-size: 16px;
   margin-bottom: 12px;
   border: 1px solid #f1f1f1;
   background-color: #f1f1f1;
   border-radius: 4px;
   outline: none;
-  padding: 20px;
   cursor: pointer;
 }
 input:focus {
@@ -98,7 +107,6 @@ input:focus {
 #button {
   display: block;
   width: 100%;
-  height: 50px;
   margin-bottom: 10px;
   border: 1px solid #333;
   background-color: #333;
@@ -109,11 +117,15 @@ input:focus {
   cursor: pointer;
   padding: 13px;
   transition: .2s;
+  padding: 20px 13px;
+  height: 64px;
+  font-size: 16px;
 }
 #button:hover {
   background-color: #555;
 }
-#third #button {
+#third #button,
+#fourth #button {
   display: block;
   width: 100%;
   height: 64px;
@@ -155,16 +167,19 @@ input:focus {
   border-radius: 4px;
 }
 #second #footer,
-#third #footer {
+#third #footer,
+#fourth #footer {
   margin-top: 2px;
   margin-bottom: -26px
 }
 #second #header,
-#third #header {
+#third #header,
+#fourth #header {
   margin-left: -260px;
 }
 #second #header span,
-#third #header span {
+#third #header span,
+#fourth #header span {
   position: absolute;
   right: 34px;
   top: 24px;
@@ -180,7 +195,8 @@ input:focus {
   transition: .2s;
 }
 #second #header span:hover,
-#third #header span:hover {
+#third #header span:hover,
+#fourth #header span:hover {
   background-color: #555;
 }
 #map div {
@@ -228,11 +244,18 @@ ul li {
     font-weight: 200;
   }
   #second #header,
-  #third #header {
+  #third #header,
+  #fourth #header {
     margin-left: -230px;
   }
   #second #header span,
-  #third #header span {
+  #third #header span,
+  #fourth #header span {
     top: 2px !important;
   }
+}
+iframe {
+  width: 100%;
+  height: -webkit-fill-available;
+  border: none;
 }
