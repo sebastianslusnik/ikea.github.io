@@ -7,7 +7,7 @@
 </head>
 <body>
   <div class="container" align="center">
-    <video id="preview" width="400" height="300" autoplay playsinline></video><br>
+    <video id="preview" autoplay playsinline></video><br>
     <button id="starter" onclick="start();">START SCANNING</button>
     <button id="stopper" onclick="stop();" style="display: none;">STOP SCANNING</button>
     <span id="result">...</span>
@@ -15,32 +15,31 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
-    let scanner;
-    let stream;
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+    scanner.addListener('scan', function (content) {
+      document.getElementById("result").innerHTML = content;
+      document.getElementById("preview").style.borderColor = "forestgreen";
+    });
 
     async function start() {
       try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        console.log('Available devices:', devices);
-
         const videoConstraints = {
           video: {
-            facingMode: { exact: 'environment' }
+            facingMode: 'environment'
           }
         };
 
-        stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
-
+        const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
         document.getElementById('preview').srcObject = stream;
 
-        scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
-        scanner.addListener('scan', function (content) {
-          console.log('QR Code Scanned:', content);
-          document.getElementById("result").innerHTML = content;
-          document.getElementById("preview").style.borderColor = "forestgreen";
-        });
-
-        await scanner.start();
+        const cameras = await Instascan.Camera.getCameras();
+        if (cameras.length > 0) {
+          const rearCamera = cameras.find(camera => /back|rear|environment/i.test(camera.name)) || cameras[0];
+          console.log('Using camera:', rearCamera.name);
+          scanner.start(rearCamera);
+        } else {
+          console.error('No cameras found.');
+        }
 
         document.getElementById("starter").style.display = "none";
         document.getElementById("stopper").style.display = "block";
@@ -53,17 +52,21 @@
 
     async function stop() {
       if (scanner) {
-        await scanner.stop();
-        console.log('Scanner stopped');
+        scanner.stop().then(() => {
+          console.log('Scanner stopped');
 
-        document.getElementById("stopper").style.display = "none";
-        document.getElementById("starter").style.display = "block";
+          document.getElementById("stopper").style.display = "none";
+          document.getElementById("starter").style.display = "block";
 
-        if (stream) {
-          let tracks = stream.getTracks();
-          tracks.forEach(track => track.stop());
-          document.getElementById("preview").srcObject = null;
-        }
+          let stream = document.getElementById("preview").srcObject;
+          if (stream) {
+            let tracks = stream.getTracks();
+            tracks.forEach(track => track.stop());
+            document.getElementById("preview").srcObject = null;
+          }
+        }).catch((e) => {
+          console.error('Error stopping scanner:', e);
+        });
       }
     }
   </script>
