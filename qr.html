@@ -31,7 +31,7 @@
         const cameras = await Instascan.Camera.getCameras();
         if (cameras.length > 0) {
           // Attempt to select the rear camera by checking device information
-          let rearCamera = cameras.find(camera => /back|rear|environment/i.test(camera.name)) || cameras[0];
+          let rearCamera = cameras.find(camera => camera.name.toLowerCase().includes('back') || camera.name.toLowerCase().includes('rear') || camera.name.toLowerCase().includes('environment')) || cameras[0];
           console.log('Selected camera:', rearCamera);
 
           // Start scanner with selected camera
