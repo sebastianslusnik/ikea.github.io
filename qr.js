@@ -66,3 +66,17 @@ domReady(function () {
     );
     htmlscanner.render(onScanSuccess);
 });
+
+//remove front cameras
+setInterval(() => {
+    const selectElement = document.getElementById('html5-qrcode-select-camera');
+    if (selectElement) {
+        document.querySelectorAll("#html5-qrcode-select-camera option").forEach(option => {
+            if (option.textContent.includes("front")) {
+                option.remove();
+            }
+        });
+        selectElement.selectedIndex = 0;
+        clearInterval(this);
+    }
+}, 1000);
