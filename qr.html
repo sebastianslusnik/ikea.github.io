@@ -16,6 +16,7 @@
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+
     scanner.addListener('scan', function (content) {
       document.getElementById("result").innerHTML = content;
       document.getElementById("preview").style.borderColor = "forestgreen";
@@ -25,7 +26,7 @@
       try {
         const videoConstraints = {
           video: {
-            facingMode: 'environment'
+            facingMode: 'environment'  // Directly request the back camera
           }
         };
 
@@ -34,11 +35,15 @@
 
         const cameras = await Instascan.Camera.getCameras();
         if (cameras.length > 0) {
-          const rearCamera = cameras.find(camera => /back|rear|environment/i.test(camera.name)) || cameras[0];
+          // Check for back or environment facing camera
+          let rearCamera = cameras.find(camera => /back|rear|environment/i.test(camera.name)) || cameras[0];
+
+          // Start the scanner with the selected camera
           console.log('Using camera:', rearCamera.name);
           scanner.start(rearCamera);
         } else {
           console.error('No cameras found.');
+          alert('Camera not found. Please use a device with camera access.');
         }
 
         document.getElementById("starter").style.display = "none";
