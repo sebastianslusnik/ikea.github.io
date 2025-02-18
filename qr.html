@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Untitled</title>
-  <link rel="stylesheet" href="qr.css?v=1.0.7">
+  <link rel="stylesheet" href="qr.css?v=1.0.9">
 </head>
 <body>
-<div class="container">
-  <div class="section">
-    <div id="my-qr-reader"></div>
-    <span id="result">Your QR result is: </span>
+  <div class="container" align="center">
+    <video id="preview"></video><br>
+    <button id="starter" onclick="start();">START SCANNING</button>
+    <button id="stopper" onclick="stop();">STOP SCANNING</button>
+    <span id="result">...</span>
   </div>
-</div>
-<script src="https://unpkg.com/html5-qrcode"></script>
-<script  src="qr.js?v=1.0.7"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script  src="qr.js?v=1.0.9"></script>
 </body>
 </html>

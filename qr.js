@@ -1,35 +1,28 @@
-function domReady(fn) {
-    if (
-        document.readyState === "complete" ||
-        document.readyState === "interactive"
-    ) {
-        setTimeout(fn, 1000);
-    } else {
-        document.addEventListener("DOMContentLoaded", fn);
-    }
-}
-domReady(function () {
-    // If found you qr code
-    function onScanSuccess(decodeText) {
-        document.getElementById("result").innerHTML = "Your QR result is: " + decodeText;
-    }
-    let htmlscanner = new Html5QrcodeScanner(
-        "my-qr-reader",
-        { fps: 10, qrbos: 250 }
-    );
-    htmlscanner.render(onScanSuccess);
+let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+scanner.addListener('scan', function (content) {
+  document.getElementById("result").innerHTML = content;
 });
-
-//remove front cameras
-setInterval(() => {
-    const selectElement = document.getElementById('html5-qrcode-select-camera');
-    if (selectElement) {
-        document.querySelectorAll("#html5-qrcode-select-camera option").forEach(option => {
-            if (option.textContent.includes("front")) {
-                option.remove();
-            }
-        });
-        selectElement.selectedIndex = 0;
-        clearInterval(this);
+function start() {
+  Instascan.Camera.getCameras().then(function (cameras) {
+    if (cameras.length > 0) {
+      cameras.forEach(element => {console.log(element.name);});
+      scanner.start(cameras[1]);
+    } else {
+      console.error('No cameras found.');
     }
-}, 3000);
+    document.getElementById("starter").style.display = "none";
+    document.getElementById("stopper").style.display = "block";
+  }).catch(function (e) {console.error(e);});
+}
+function stop() {
+  Instascan.Camera.getCameras().then(function (cameras) {
+    if (cameras.length > 0) {
+      cameras.forEach(element => {console.log(element.name);});
+      scanner.stop();
+    } else {
+      console.error('No cameras found.');
+    }
+    document.getElementById("stopper").style.display = "none";
+    document.getElementById("starter").style.display = "block";
+  }).catch(function (e) {console.error(e);});
+}
