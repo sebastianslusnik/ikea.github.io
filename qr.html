@@ -7,7 +7,7 @@
 </head>
 <body>
   <div class="container" align="center">
-    <video id="preview" autoplay playsinline></video><br>
+    <video id="preview" width="400" height="300" autoplay playsinline></video><br>
     <button id="starter" onclick="start();">START SCANNING</button>
     <button id="stopper" onclick="stop();" style="display: none;">STOP SCANNING</button>
     <span id="result">...</span>
@@ -15,22 +15,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
-    async function checkCameraPermissions() {
-      try {
-        await navigator.mediaDevices.getUserMedia({video: true});
-        return true;
-      } catch (err) {
-        console.error('Camera access denied:', err);
-        return false;
-      }
-    }
+    let scanner;
+    let stream;
 
     async function start() {
-      if (!(await checkCameraPermissions())) {
-        alert('Camera permission denied. Please allow camera access in your browser settings.');
-        return;
-      }
-
       try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         console.log('Available devices:', devices);
@@ -41,16 +29,18 @@
           }
         };
 
-        const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
+        stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+        document.getElementById('preview').srcObject = stream;
+
+        scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
         scanner.addListener('scan', function (content) {
+          console.log('QR Code Scanned:', content);
           document.getElementById("result").innerHTML = content;
           document.getElementById("preview").style.borderColor = "forestgreen";
         });
 
-        document.getElementById("preview").srcObject = stream;
-        scanner.start(stream);
+        await scanner.start();
 
         document.getElementById("starter").style.display = "none";
         document.getElementById("stopper").style.display = "block";
@@ -61,26 +51,20 @@
       }
     }
 
-    function stop() {
-      Instascan.Camera.getCameras().then(cameras => {
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
-        scanner.stop().then(() => {
-          console.log('Scanner stopped');
-          document.getElementById("stopper").style.display = "none";
-          document.getElementById("starter").style.display = "block";
+    async function stop() {
+      if (scanner) {
+        await scanner.stop();
+        console.log('Scanner stopped');
 
-          let stream = document.getElementById("preview").srcObject;
+        document.getElementById("stopper").style.display = "none";
+        document.getElementById("starter").style.display = "block";
+
+        if (stream) {
           let tracks = stream.getTracks();
-
-          tracks.forEach(function(track) {
-            track.stop();
-          });
-
+          tracks.forEach(track => track.stop());
           document.getElementById("preview").srcObject = null;
-        }).catch((e) => {
-          console.error('Error stopping scanner:', e);
-        });
-      });
+        }
+      }
     }
   </script>
 </body>
