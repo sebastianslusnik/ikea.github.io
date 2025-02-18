@@ -1,6 +1,7 @@
 let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
 scanner.addListener('scan', function (content) {
   document.getElementById("result").innerHTML = content;
+  document.getElementById("preview").borderColor = "forestgreen";
 });
 function start() {
   Instascan.Camera.getCameras().then(function (cameras) {
