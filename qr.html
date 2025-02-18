@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>QR Code Scanner</title>
-  <link rel="stylesheet" href="qr.css?v=1.0.159">
+  <link rel="stylesheet" href="qr.css?v=1.0.1111">
 </head>
 <body>
   <div class="container" align="center">
@@ -15,38 +15,36 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
-  document.getElementById("result").innerHTML = "newer";
+    document.getElementById("result").innerHTML = "newer12";
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
     scanner.addListener('scan', function (content) {
       document.getElementById("result").innerHTML = content;
       document.getElementById("preview").style.borderColor = "forestgreen";
     });
 
-    function start() {
-      Instascan.Camera.getCameras().then(function (cameras) {
-        if (cameras.length > 0) {
-          // List all available cameras
-          cameras.forEach((camera, index) => {
-            console.log(`Camera ${index}: ${camera.id}, Name: ${camera.name}`);
-          });
+    async function start() {
+      try {
+        const videoConstraints = {
+          video: {
+            facingMode: { exact: 'environment' } // Attempt to enforce rear camera usage
+          }
+        };
 
-          // Attempt to select a rear camera or fallback to the first available camera
-          let selectedCamera = cameras.find(camera => (/back|rear|environment/i.test(camera.name))) || cameras[0];
+        const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-          // Try to start the scanner with the selected camera
-          scanner.start(selectedCamera).then(() => {
-            console.log(`Started scanning with camera: ${selectedCamera.name}`);
-          }).catch(function (e) {
-            console.error(e);
-          });
-        } else {
-          console.error('No cameras found.');
-        }
+        // Set the video source and start the stream
+        scanner.video = document.getElementById('preview');
+        scanner.video.srcObject = stream;
+        scanner.video.play();
+
         document.getElementById("starter").style.display = "none";
         document.getElementById("stopper").style.display = "block";
-      }).catch(function (e) {
-        console.error(e);
-      });
+
+        scanner.start();
+      } catch (e) {
+        console.error('Error accessing the camera: ', e);
+        alert('Unable to access the camera. Please check permissions.');
+      }
     }
 
     function stop() {
@@ -54,7 +52,18 @@
         console.log('Scanner stopped');
         document.getElementById("stopper").style.display = "none";
         document.getElementById("starter").style.display = "block";
-      }).catch(function (e) {
+
+        // Stop all video tracks to release the camera
+        let stream = scanner.video.srcObject;
+        let tracks = stream.getTracks();
+
+        tracks.forEach(function(track) {
+          track.stop();
+        });
+
+        scanner.video.srcObject = null;
+
+      }).catch((e) => {
         console.error('Error stopping scanner:', e);
       });
     }
