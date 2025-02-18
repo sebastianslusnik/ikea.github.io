@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>QR Code Scanner</title>
-  <link rel="stylesheet" href="qr.css?v=1.0.1987">
+  <link rel="stylesheet" href="qr.css?v=1.0.15">
 </head>
 <body>
   <div class="container" align="center">
@@ -16,6 +16,7 @@
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script>
     let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+
     scanner.addListener('scan', function (content) {
       document.getElementById("result").innerHTML = content;
       document.getElementById("preview").style.borderColor = "forestgreen";
@@ -31,15 +32,13 @@
 
         const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
 
-        // Set the video source and start the stream
-        scanner.video = document.getElementById('preview');
-        scanner.video.srcObject = stream;
-        scanner.video.play();
+        // Ensure that the Instascan uses its video control since it's expected by the library
+        scanner.video.setAttribute('src', URL.createObjectURL(stream));
 
         document.getElementById("starter").style.display = "none";
         document.getElementById("stopper").style.display = "block";
 
-        scanner.start();
+        scanner.start(stream);
       } catch (e) {
         console.error('Error accessing the camera: ', e);
         alert('Unable to access the camera. Please check permissions.');
