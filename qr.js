@@ -1,4 +1,4 @@
-
+document.getElementById("result").innerHTML = "newer";
 let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
     scanner.addListener('scan', function (content) {
       document.getElementById("result").innerHTML = content;
