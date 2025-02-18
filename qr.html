@@ -24,31 +24,26 @@
 
     async function start() {
       try {
-        const videoConstraints = {
-          video: {
-            facingMode: 'environment'  // Directly request the back camera
-          }
-        };
-
-        const stream = await navigator.mediaDevices.getUserMedia(videoConstraints);
-        document.getElementById('preview').srcObject = stream;
+        // List available devices
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        console.log('Available devices:', devices);
 
         const cameras = await Instascan.Camera.getCameras();
         if (cameras.length > 0) {
-          // Check for back or environment facing camera
+          // Attempt to select the rear camera by checking device information
           let rearCamera = cameras.find(camera => /back|rear|environment/i.test(camera.name)) || cameras[0];
+          console.log('Selected camera:', rearCamera);
 
-          // Start the scanner with the selected camera
-          console.log('Using camera:', rearCamera.name);
-          scanner.start(rearCamera);
+          // Start scanner with selected camera
+          scanner.start(rearCamera).then(() => {
+            console.log('Scanner started');
+            document.getElementById("starter").style.display = "none";
+            document.getElementById("stopper").style.display = "block";
+          }).catch(err => console.error('Failed to start scanner:', err));
         } else {
           console.error('No cameras found.');
           alert('Camera not found. Please use a device with camera access.');
         }
-
-        document.getElementById("starter").style.display = "none";
-        document.getElementById("stopper").style.display = "block";
-
       } catch (e) {
         console.error('Error accessing the camera:', e);
         alert('Unable to access the camera. Please check permissions.');
