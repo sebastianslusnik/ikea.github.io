@@ -45,7 +45,7 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 30px;
+    margin-top: 0px;
     background-color: #333;
     font-weight: 900;
     transition: .3s;
@@ -60,7 +60,7 @@ button:hover {
     color: #333;
 }
 #my-qr-reader__dashboard_section_csr span:first-of-type {
-    display: none;
+    opacity: 0;
 }
 video {
     width: 100% !important;
