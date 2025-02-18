@@ -1,4 +1,6 @@
-let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+scanner = new Instascan.Scanner({ video: video, scanPeriod: 4, mirror:false })
+                .then(handleSuccess)
+                .catch(handleError);
 scanner.addListener('scan', function (content) {
   document.getElementById("result").innerHTML = content;
   document.getElementById("preview").borderColor = "forestgreen";
@@ -6,8 +8,7 @@ scanner.addListener('scan', function (content) {
 function start() {
   Instascan.Camera.getCameras().then(function (cameras) {
     if (cameras.length > 0) {
-      cameras.forEach(element => {console.log(element.name);});
-      scanner.start(cameras[2]);
+        scanner.start(cameras[0]);
     } else {
       console.error('No cameras found.');
     }
@@ -18,7 +19,6 @@ function start() {
 function stop() {
   Instascan.Camera.getCameras().then(function (cameras) {
     if (cameras.length > 0) {
-      cameras.forEach(element => {console.log(element.name);});
       scanner.stop();
     } else {
       console.error('No cameras found.');
