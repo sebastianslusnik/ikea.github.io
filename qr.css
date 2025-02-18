@@ -23,8 +23,7 @@ body {
 }
 .section {
     padding: 0px;
-    padding-top: 100px;
-    border-radius: 10px;
+    padding-top: 50px;
 }
 #my-qr-reader {
     padding: 0px !important;
@@ -46,7 +45,7 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 30px;
     background-color: #333;
     font-weight: 900;
     transition: .3s;
@@ -59,6 +58,9 @@ button:hover {
 #html5-qrcode-anchor-scan-type-change {
     text-decoration: none !important;
     color: #333;
+}
+#my-qr-reader__dashboard_section_csr span:first-of-type {
+    display: none;
 }
 video {
     width: 100% !important;
