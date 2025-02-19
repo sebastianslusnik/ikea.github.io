@@ -3,6 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>QR Code Scanner</title>
+    <script>
+        function setupCamera() {
+            const selectElement = document.getElementById('html5-qrcode-select-camera');
+
+            if (selectElement) {
+                selectElement.setAttribute('data-setup', 'true');
+                // Additional setup code...
+            } else {
+                console.error('Select element with ID "html5-qrcode-select-camera" not found.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Perform initial validations and checks
+            setupCamera();
+
+            // More initial DOM setup, if required
+            const selectElement = document.getElementById('html5-qrcode-select-camera');
+            if (selectElement) {
+                selectElement.disabled = false;
+            } else {
+                console.error('Select element with ID "html5-qrcode-select-camera" not found for disabling.');
+            }
+        });
+    </script>
 </head>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -149,23 +174,6 @@ video {
       htmlscanner.render(onScanSuccess);
   });
 
-  document.addEventListener('DOMContentLoaded', function () {
-      const selectElement = document.getElementById('html5-qrcode-select-camera');
-      const toggleButton = document.getElementById('toggle-button');
-
-      // Enable the select element to ensure it's interactable, if necessary
-      selectElement.disabled = false; // Remove this line if you want to keep it disabled
-
-      if (selectElement) {
-          toggleButton.addEventListener('click', () => {
-              const currentIndex = selectElement.selectedIndex;
-              const newIndex = (currentIndex + 1) % selectElement.options.length;
-              selectElement.selectedIndex = newIndex;
-          });
-      } else {
-          console.error('Select element with ID "html5-qrcode-select-camera" not found.');
-      }
-  });
   </script>
 </body>
 </html>
