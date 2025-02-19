@@ -148,30 +148,43 @@ video {
       );
       htmlscanner.render(onScanSuccess);
   });
-  document.addEventListener('DOMContentLoaded', function () {
-              const selectElement = document.getElementById('html5-qrcode-select-camera');
-              const toggleButton = document.getElementById('toggle-button');
-              const startCameraButton = document.getElementById('html5-qrcode-button-camera-start');
+        document.addEventListener('DOMContentLoaded', function () {
+            function setupCamera() {
+                const selectElement = document.getElementById('html5-qrcode-select-camera');
 
-              if (toggleButton && selectElement && startCameraButton) {
-                  toggleButton.addEventListener('click', () => {
-                      // Toggle between the options in the select element
-                      const currentIndex = selectElement.selectedIndex;
-                      const newIndex = (currentIndex + 1) % selectElement.options.length;
-                      selectElement.selectedIndex = newIndex;
+                if (selectElement) {
+                    selectElement.setAttribute('data-setup', 'true');
+                    console.log('Camera setup completed');
+                    // Additional configuration can be done here if needed
+                } else {
+                    console.error('Select element with ID "html5-qrcode-select-camera" not found.');
+                }
+            }
 
-                      console.log(`Option switched to index: ${newIndex}`);
+            function initialize() {
+                const selectElement = document.getElementById('html5-qrcode-select-camera');
+                if (selectElement) {
+                    selectElement.disabled = false; // Enable it if it's initially disabled
+                } else {
+                    console.error('Select element with ID "html5-qrcode-select-camera" not found for disabling.');
+                }
+            }
 
-                      // Add a 1-second delay before simulating a click on the start button
-                      setTimeout(() => {
-                          console.log('Simulating camera start button click');
-                          startCameraButton.click();
-                      }, 1000);
-                  });
-              } else {
-                  console.error('One of the required elements is missing.');
-              }
-          });
+            setupCamera();
+            initialize();
+
+            const toggleButton = document.getElementById('toggle-button');
+            if (toggleButton) {
+                toggleButton.addEventListener('click', () => {
+                    const selectElement = document.getElementById('html5-qrcode-select-camera');
+                    if (selectElement) {
+                        const currentIndex = selectElement.selectedIndex;
+                        const newIndex = (currentIndex + 1) % selectElement.options.length;
+                        selectElement.selectedIndex = newIndex;
+                    }
+                });
+            }
+        });
   </script>
 </body>
 </html>
