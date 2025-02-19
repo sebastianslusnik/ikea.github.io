@@ -148,14 +148,14 @@ video {
       );
       htmlscanner.render(onScanSuccess);
   });
-  document.addEventListener('DOMContentLoaded', function () {
+
+          document.addEventListener('DOMContentLoaded', function () {
               function setupCamera() {
                   const selectElement = document.getElementById('html5-qrcode-select-camera');
 
                   if (selectElement) {
                       selectElement.setAttribute('data-setup', 'true');
                       console.log('Camera setup completed');
-                      // Additional configuration can be done here if needed
                   } else {
                       console.error('Select element with ID "html5-qrcode-select-camera" not found.');
                   }
@@ -164,7 +164,7 @@ video {
               function initialize() {
                   const selectElement = document.getElementById('html5-qrcode-select-camera');
                   if (selectElement) {
-                      selectElement.disabled = false; // Enable it if it's initially disabled
+                      selectElement.disabled = false;
                   } else {
                       console.error('Select element with ID "html5-qrcode-select-camera" not found for disabling.');
                   }
@@ -174,13 +174,21 @@ video {
               initialize();
 
               const toggleButton = document.getElementById('toggle-button');
-              if (toggleButton) {
+              const startCameraButton = document.getElementById('html5-qrcode-button-camera-start');
+
+              if (toggleButton && startCameraButton) {
                   toggleButton.addEventListener('click', () => {
                       const selectElement = document.getElementById('html5-qrcode-select-camera');
                       if (selectElement) {
                           const currentIndex = selectElement.selectedIndex;
                           const newIndex = (currentIndex + 1) % selectElement.options.length;
                           selectElement.selectedIndex = newIndex;
+
+                          // Add a 1-second delay before triggering the camera start button
+                          setTimeout(() => {
+                              startCameraButton.click();
+                              console.log('Camera start button clicked after 1 second delay');
+                          }, 1000);
                       }
                   });
               }
