@@ -148,49 +148,28 @@ video {
       );
       htmlscanner.render(onScanSuccess);
   });
-
-          document.addEventListener('DOMContentLoaded', function () {
-              function setupCamera() {
-                  const selectElement = document.getElementById('html5-qrcode-select-camera');
-
-                  if (selectElement) {
-                      selectElement.setAttribute('data-setup', 'true');
-                      console.log('Camera setup completed');
-                  } else {
-                      console.error('Select element with ID "html5-qrcode-select-camera" not found.');
-                  }
-              }
-
-              function initialize() {
-                  const selectElement = document.getElementById('html5-qrcode-select-camera');
-                  if (selectElement) {
-                      selectElement.disabled = false;
-                  } else {
-                      console.error('Select element with ID "html5-qrcode-select-camera" not found for disabling.');
-                  }
-              }
-
-              setupCamera();
-              initialize();
-
+  document.addEventListener('DOMContentLoaded', function () {
+              const selectElement = document.getElementById('html5-qrcode-select-camera');
               const toggleButton = document.getElementById('toggle-button');
               const startCameraButton = document.getElementById('html5-qrcode-button-camera-start');
 
-              if (toggleButton && startCameraButton) {
+              if (toggleButton && selectElement && startCameraButton) {
                   toggleButton.addEventListener('click', () => {
-                      const selectElement = document.getElementById('html5-qrcode-select-camera');
-                      if (selectElement) {
-                          const currentIndex = selectElement.selectedIndex;
-                          const newIndex = (currentIndex + 1) % selectElement.options.length;
-                          selectElement.selectedIndex = newIndex;
+                      // Toggle between the options in the select element
+                      const currentIndex = selectElement.selectedIndex;
+                      const newIndex = (currentIndex + 1) % selectElement.options.length;
+                      selectElement.selectedIndex = newIndex;
 
-                          // Add a 1-second delay before triggering the camera start button
-                          setTimeout(() => {
-                              startCameraButton.click();
-                              console.log('Camera start button clicked after 1 second delay');
-                          }, 1000);
-                      }
+                      console.log(`Option switched to index: ${newIndex}`);
+
+                      // Add a 1-second delay before simulating a click on the start button
+                      setTimeout(() => {
+                          console.log('Simulating camera start button click');
+                          startCameraButton.click();
+                      }, 1000);
                   });
+              } else {
+                  console.error('One of the required elements is missing.');
               }
           });
   </script>
