@@ -149,21 +149,22 @@ video {
       htmlscanner.render(onScanSuccess);
   });
 
-  // Wait for the DOM content to load before accessing the elements
   document.addEventListener('DOMContentLoaded', function () {
       const selectElement = document.getElementById('html5-qrcode-select-camera');
       const toggleButton = document.getElementById('toggle-button');
 
-      toggleButton.addEventListener('click', () => {
-          // Check the currently selected option
-          const currentIndex = selectElement.selectedIndex;
+      // Enable the select element to ensure it's interactable, if necessary
+      selectElement.disabled = false; // Remove this line if you want to keep it disabled
 
-          // Toggle to the other option
-          const newIndex = (currentIndex + 1) % selectElement.options.length;
-
-          // Set the new selected index
-          selectElement.selectedIndex = newIndex;
-      });
+      if (selectElement) {
+          toggleButton.addEventListener('click', () => {
+              const currentIndex = selectElement.selectedIndex;
+              const newIndex = (currentIndex + 1) % selectElement.options.length;
+              selectElement.selectedIndex = newIndex;
+          });
+      } else {
+          console.error('Select element with ID "html5-qrcode-select-camera" not found.');
+      }
   });
   </script>
 </body>
