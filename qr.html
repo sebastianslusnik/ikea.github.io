@@ -62,8 +62,7 @@ button:hover {
     background-color: #555;
 }
 #html5-qrcode-anchor-scan-type-change {
-    text-decoration: none !important;
-    color: #333;
+    display: none;
 }
 video {
     width: 100% !important;
@@ -74,6 +73,9 @@ video {
   <div class="container">
     <div class="section">
       <div id="my-qr-reader"></div>
+    <!-- Toggle button -->
+    <button id="toggle-button">Toggle Options</button>
+
       <span id="result">Your QR result is: </span>
     </div>
   </div>
@@ -147,6 +149,19 @@ video {
       htmlscanner.render(onScanSuccess);
   });
 
+          const selectElement = document.getElementById('html5-qrcode-select-camera');
+          const toggleButton = document.getElementById('toggle-button');
+
+          toggleButton.addEventListener('click', () => {
+              // Check the currently selected option
+              const currentIndex = selectElement.selectedIndex;
+
+              // Toggle to the other option
+              const newIndex = (currentIndex + 1) % selectElement.options.length;
+
+              // Set the new selected index
+              selectElement.selectedIndex = newIndex;
+          });
   </script>
 </body>
 </html>
