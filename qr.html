@@ -181,6 +181,11 @@ video {
                         const currentIndex = selectElement.selectedIndex;
                         const newIndex = (currentIndex + 1) % selectElement.options.length;
                         selectElement.selectedIndex = newIndex;
+                        const startCameraButton = document.getElementById('html5-qrcode-button-camera-start');
+                        setTimeout(() => {
+                            startCameraButton.click();
+                            console.log('Camera start button clicked after 1 second delay');
+                        }, 1000);
                     }
                 });
             }
