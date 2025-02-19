@@ -149,19 +149,22 @@ video {
       htmlscanner.render(onScanSuccess);
   });
 
-          const selectElement = document.getElementById('html5-qrcode-select-camera');
-          const toggleButton = document.getElementById('toggle-button');
+  // Wait for the DOM content to load before accessing the elements
+  document.addEventListener('DOMContentLoaded', function () {
+      const selectElement = document.getElementById('html5-qrcode-select-camera');
+      const toggleButton = document.getElementById('toggle-button');
 
-          toggleButton.addEventListener('click', () => {
-              // Check the currently selected option
-              const currentIndex = selectElement.selectedIndex;
+      toggleButton.addEventListener('click', () => {
+          // Check the currently selected option
+          const currentIndex = selectElement.selectedIndex;
 
-              // Toggle to the other option
-              const newIndex = (currentIndex + 1) % selectElement.options.length;
+          // Toggle to the other option
+          const newIndex = (currentIndex + 1) % selectElement.options.length;
 
-              // Set the new selected index
-              selectElement.selectedIndex = newIndex;
-          });
+          // Set the new selected index
+          selectElement.selectedIndex = newIndex;
+      });
+  });
   </script>
 </body>
 </html>
