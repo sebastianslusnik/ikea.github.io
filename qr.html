@@ -17,103 +17,136 @@
   overflow: hidden;
 }
 body {
-  margin: 0;
-  padding: 0;
-  width: 200vw;
-  height: 200vh;
-    -ms-transform: scale(0.5);
-    -moz-transform: scale(0.5);
-    -o-transform: scale(0.5);
-    -webkit-transform: scale(0.5);
-    transform: scale(0.5);
-    -ms-transform-origin: 0 0;
-    -moz-transform-origin: 0 0;
-    -o-transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
+    margin: 0;
+    padding: 0;
+    height: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    text-align: center;
+    background: white;
 }
 .container {
-width: 200vw;
-height: 200vh;
-  border-radius: 10px;
+    width: 100%;
 }
-#reader {
-  background-color: #f1f1f1;
-  border-radius: 10px;
-  width: 200vw;
-  height: 200vh;
-  border: 5px solid #333;
+.section {
+    padding: 0px;
+    margin: 0;
+    border-radius: 10px;
+}
+#my-qr-reader {
+    padding: 0px !important;
+    border-radius: 10px;
+    border: none !important;
+}
+#my-qr-reader img[alt="Info icon"] {
+    display: none;
+}
+#my-qr-reader img[alt="Camera based scan"] {
+    width: 100px !important;
+    height: 100px !important;
 }
 button {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 10px;
-  padding: 13px 20px;
-  height: 64px;
-  font-size: 16px;
-  font-weight: 900;
-  border: none;
-  border-radius: 4px;
-  background-color: #333;
-  color: white;
-  cursor: pointer;
-  transition: .3s;
+    padding: 13px 20px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: #333;
+    font-weight: 900;
+    transition: .3s;
 }
 button:hover {
-  background-color: #555;
+    background-color: #555;
 }
-#stopper {
-  display: none;
+#html5-qrcode-anchor-scan-type-change {
+    text-decoration: none !important;
+    color: #333;
 }
-span {
-  font-size: 20px;
-  position: relative;
-  top: 10px;
-  color: #333;
-}
-#qr-preview video {
-  height: 100% !important;
-  -o-object-fit: cover;
-     object-fit: cover;
-  width: 101% !important;
-  border-radius: 5px;
-}
-#qr-preview:before {
-  content: '';
-  background-image: url("data:image/svg+xml,%3Csvg width='213' height='219' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg opacity='1' stroke='%23333' stroke-width='8'%3E%3Cpath d='M1 181V218H38M212 181V218H175M1 38V1H38M212 38V1H175'/%3E%3C/g%3E%3C/svg%3E");
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 200vw;
-  height: 200vh;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: 999;
+video {
+    width: 100% !important;
+    border-radius: 8px;
 }
 </style>
 <body>
-  <div class="container" align="center">
-  <div id="qr-preview" align="center">
-    <div id="reader"></div>
-    <span id="result">. . . .</span>
+  <div class="container">
+    <div class="section">
+      <div id="my-qr-reader"></div>
+      <span id="result">Your QR result is: </span>
+    </div>
   </div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/1.2.4/html5-qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
   <script>
-  function qrFound(qrCode){
-document.getElementById("result").innerHTML = qrCode;
-var styleElem = document.head.appendChild(document.createElement("style"));
-styleElem.innerHTML = "#qr-preview:before {background-image: url(https://static.thenounproject.com/png/353054-200.png)}";
-}
+  function isMobile() {
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    return isAndroid || isiOS;
+  }
 
-const html5QrCode = new Html5Qrcode("reader");
+  async function setupCamera() {
+    const isPortrait = false; // do logic here
 
-html5QrCode.start({facingMode: "environment"},{fps: 10 },qrFound)
-.catch(err => {
-console.log(err);
-});
+    let video = document.getElementById('video');
+
+    console.log("Getting video");
+
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+
+    console.log("Calling getUserMedia");
+
+    return new Promise((resolve) => {
+      (async() => {
+        await navigator.mediaDevices.getUserMedia({
+            'audio': false,
+            'video': {
+              facingMode: 'environment',
+            },
+          })
+          .then((stream) => {
+            console.log("Got getUserMedia stream");
+            video.srcObject = stream;
+            video.play();
+            resolve(true);
+          })
+          .catch((err) => {
+            console.log("Encountered getUserMedia error", err);
+            resolve(false);
+          });
+      })();
+    });
+
+  }
+
+  (async() => {
+    const ret = await setupCamera();
+    console.log(`Initialised camera: ${ret}`)
+  })();
+  function domReady(fn) {
+      if (
+          document.readyState === "complete" ||
+          document.readyState === "interactive"
+      ) {
+          setTimeout(fn, 1000);
+      } else {
+          document.addEventListener("DOMContentLoaded", fn);
+      }
+  }
+  domReady(function () {
+      // If found you qr code
+      function onScanSuccess(decodeText) {
+          document.getElementById("result").innerHTML = "Your QR result is: " + decodeText;
+      }
+      let htmlscanner = new Html5QrcodeScanner(
+          "my-qr-reader",
+          { fps: 10, qrbos: 250 }
+      );
+      htmlscanner.render(onScanSuccess);
+  });
+
   </script>
 </body>
 </html>
