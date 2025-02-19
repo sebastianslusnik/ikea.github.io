@@ -14,21 +14,34 @@
   box-sizing: border-box;
   color: #333;
   font-family: "DM Sans", serif !important;
+  overflow: hidden;
 }
 body {
   margin: 0;
   padding: 0;
+  width: 200vw;
+  height: 200vh;
+    -ms-transform: scale(0.5);
+    -moz-transform: scale(0.5);
+    -o-transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
 }
 .container {
-  width: 100%;
-  height: auto;
+width: 200vw;
+height: 200vh;
   border-radius: 10px;
 }
 #reader {
   background-color: #f1f1f1;
   border-radius: 10px;
-  width: 100vw;
-  height: 100vw;
+  width: 200vw;
+  height: 200vh;
   border: 5px solid #333;
 }
 button {
@@ -72,8 +85,8 @@ span {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100vw;
-  height:100vw;
+  width: 200vw;
+  height: 200vh;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 999;
